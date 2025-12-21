@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "target": "ES2023",
+    "strict": true,
+    "esModuleInterop": true,
+    "rootDir": "./",
+    "outDir": "./dist/api",
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts", "src/lib/**/*.ts", "prisma.config.ts"],
+  "exclude": ["node_modules", "prisma"]
+}
