@@ -1,27 +1,22 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import dotenv from "dotenv";
+import userRoutes from "./routes/userRoter";
 import {prisma} from "./lib/prisma";
 
-const app = express();
+dotenv.config();
 
+const app = express();
 app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
-
-  req.body.name;
-  res.send("Express + TypeScript is working 🚀");
+app.get("/health", (_req, res) => {
+  res.json({ status: "ok" });
 });
 
-app.post("/echo", (req: Request, res: Response) => {
+app.use("/users", userRoutes);
 
-  prisma.user.findMany().then(users => {
-    console.log('Users in database:', users);
-  });
+const PORT = process.env.PORT || 3000;
 
-  return res.json({ received: req.body });
-});
-
-const PORT = 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, async () => {
+  await prisma.$connect();
+  console.log(`API running on port ${PORT}`);
 });

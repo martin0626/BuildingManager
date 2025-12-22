@@ -15,17 +15,112 @@ datasource db {
 
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+  id        String   @id @default(uuid())
+  email     String   @unique
+  fullName  String
+  role      UserRole @default(RESIDENT)
+  createdAt DateTime @default(now())
+
+  memberships Membership[]
+  votes       VoteResponse[]
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Building {
+  id        String   @id @default(uuid())
+  name      String
+  address   String
+  city      String
+  createdAt DateTime @default(now())
+
+  apartments     Apartment[]
+  announcements  Announcement[]
+  expenses       Expense[]
+  votes          Vote[]
+}
+
+model Apartment {
+  id          String   @id @default(uuid())
+  number      String
+  floor       Int
+  areaSqm     Float
+  buildingId String
+  createdAt  DateTime @default(now())
+
+  building    Building   @relation(fields: [buildingId], references: [id])
+  memberships Membership[]
+}
+
+model Membership {
+  id           String   @id @default(uuid())
+  userId       String
+  apartmentId String
+  isOwner      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id])
+  apartment Apartment @relation(fields: [apartmentId], references: [id])
+
+  @@unique([userId, apartmentId])
+}
+
+model Announcement {
+  id         String   @id @default(uuid())
+  title      String
+  content    String
+  buildingId String
+  createdAt  DateTime @default(now())
+
+  building Building @relation(fields: [buildingId], references: [id])
+}
+
+model Expense {
+  id         String   @id @default(uuid())
+  title      String
+  amount     Float
+  date       DateTime
+  buildingId String
+  createdAt  DateTime @default(now())
+
+  building Building @relation(fields: [buildingId], references: [id])
+}
+
+model Vote {
+  id         String   @id @default(uuid())
+  title      String
+  description String
+  buildingId String
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+
+  building     Building     @relation(fields: [buildingId], references: [id])
+  options      VoteOption[]
+  responses    VoteResponse[]
+}
+
+model VoteOption {
+  id     String @id @default(uuid())
+  label  String
+  voteId String
+  options VoteResponse[]
+  vote Vote @relation(fields: [voteId], references: [id])
+}
+
+model VoteResponse {
+  id          String   @id @default(uuid())
+  userId      String
+  voteId      String
+  optionId    String
+  createdAt  DateTime @default(now())
+
+  user   User       @relation(fields: [userId], references: [id])
+  vote   Vote       @relation(fields: [voteId], references: [id])
+  option VoteOption @relation(fields: [optionId], references: [id])
+
+  @@unique([userId, voteId])
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  RESIDENT
 }
