@@ -1,7 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
-import userRoutes from "./routes/userRoter";
+import userRoutes from "./modules/user/userRouter";
 import {prisma} from "./lib/prisma";
+import globalErrorHandler from "./utils/errorsController";
 
 dotenv.config();
 
@@ -20,3 +21,5 @@ app.listen(PORT, async () => {
   await prisma.$connect();
   console.log(`API running on port ${PORT}`);
 });
+
+app.use(globalErrorHandler);
