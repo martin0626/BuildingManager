@@ -20,6 +20,7 @@ model User {
   fullName  String
   role      UserRole @default(RESIDENT)
   createdAt DateTime @default(now())
+  building  Building? @relation("BuildingManager")    
 
   memberships Membership[]
   votes       VoteResponse[]
@@ -31,6 +32,8 @@ model Building {
   address   String
   city      String
   createdAt DateTime @default(now())
+  managerId String? @unique 
+  user   User? @relation("BuildingManager", fields: [managerId], references: [id], onDelete: Restrict) 
 
   apartments     Apartment[]
   announcements  Announcement[]

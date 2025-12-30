@@ -5,7 +5,7 @@ const router = Router();
 
 router
     .post("/", createUserHandler)
-    .get("/:name", getSingleUserHandler)
+    .get("/:id", getSingleUserHandler)
     .get('/', getAllUserHandler)
     .patch('/:id', updateUserHandler)
     .delete('/:id', deleteUserHandler)

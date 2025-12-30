@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { createUser, deleteUser, getUsers, updateUser } from "./userServices";
+import { createUser, deleteUser, getUserById, getUsers, updateUser } from "./userServices";
 import catchAsync from "../../utils/catchAsync";
-import AppError from "../../utils/appError";
+
 
 export const createUserHandler = catchAsync(async (req: Request, res: Response) =>{
     const { email, fullName, role } = req.body;
@@ -19,20 +19,27 @@ export const createUserHandler = catchAsync(async (req: Request, res: Response) 
 
 
 export const getSingleUserHandler = catchAsync(async (req: Request, res: Response) => {
-    let name: string = req.params.name;
-    if(name.length < 2){
+    let id: string = req.params.id;
+    if(id.length < 2){
       return res.status(400).json({
-        message: "Name parameter is required and length should be at least 2 characters!",
+        message: "ID parameter is required and length should be at least 2 characters!",
       });
     }
 
-    let users = await getUsers(name);
+    let users = await getUserById(id);
     return res.status(200).json(users);
 });
 
 
 export const getAllUserHandler = catchAsync(async (req: Request, res: Response) => {
-  const user = await getUsers();
+
+  const { email, fullName } = req.query;
+
+  const user = await getUsers({ 
+    email: email ? String(email) : undefined,
+    fullName: fullName ? String(fullName) : undefined,
+  });
+  
   return res.status(200).json(user);
 });
    

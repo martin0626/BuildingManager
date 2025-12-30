@@ -1,10 +1,14 @@
-import { create } from "node:domain";
 import {prisma} from "../../lib/prisma";
 
 type CreateUserInput = {
   email: string;
   fullName: string;
   role?: "ADMIN" | "MANAGER" | "RESIDENT";
+}
+
+type GetUsersFilters = {
+  email?: string;
+  fullName?: string;
 }
 
 export async function createUser(data: CreateUserInput) {
@@ -19,9 +23,43 @@ export async function createUser(data: CreateUserInput) {
 }
 
 
-export async function getUsers(name?: string) {
 
-  if(!name){
+export const getUsers = async (filters: GetUsersFilters) => {
+  const { email, fullName } = filters;
+  const where: any = {};
+
+  if (email) {
+    where.email = {
+      contains: email,
+      mode: "insensitive",
+    };
+  }
+
+  if (fullName) {
+    where.fullName = {
+      contains: fullName,
+      mode: "insensitive",
+    };
+  }
+
+  return prisma.user.findMany({
+    where,
+    select: {
+      id: true,
+      email: true,
+      fullName: true,
+      role: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 20,
+  });
+};
+
+
+export async function getUserById(id?: string) {
+  if(!id){
       return prisma.user.findMany({select: {
         id: true,
         email: true,
@@ -31,7 +69,7 @@ export async function getUsers(name?: string) {
   }else{
     return prisma.user.findMany({
       where: {
-        fullName: { contains: name, mode: 'insensitive'  }
+        id: { contains: id, mode: 'insensitive'  }
       },
       select: {
         id: true,

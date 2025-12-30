@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import userRoutes from "./modules/user/userRouter";
+import buildingRoutes from "./modules/building/buildingRouter";
 import {prisma} from "./lib/prisma";
 import globalErrorHandler from "./utils/errorsController";
 
@@ -14,6 +15,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/users", userRoutes);
+app.use("/buildings", buildingRoutes);
 
 const PORT = process.env.PORT || 3000;
 
