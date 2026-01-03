@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { createBuildingHandler, deleteBuildingHandler, getAllBuildingHandler, getSingleBuildingHandler, updateBuildingHandler } from "./buildingController";
+import { createBuildingHandler, deleteBuildingHandler, getBuildingByIdHandler, getBuildingsHandler, updateBuildingHandler } from "./buildingController";
 
 const router = Router();
 
 router
     .post("/", createBuildingHandler)
-    .get("/:id", getSingleBuildingHandler)
-    .get('/', getAllBuildingHandler)
+    .get("/:id", getBuildingByIdHandler)
+    .get('/', getBuildingsHandler)
     .patch('/:id', updateBuildingHandler)
     .delete('/:id', deleteBuildingHandler)
 

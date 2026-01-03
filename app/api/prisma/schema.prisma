@@ -31,6 +31,7 @@ model Building {
   name      String
   address   String
   city      String
+  imageUrl  String?
   createdAt DateTime @default(now())
   managerId String? @unique 
   user   User? @relation("BuildingManager", fields: [managerId], references: [id], onDelete: Restrict) 
