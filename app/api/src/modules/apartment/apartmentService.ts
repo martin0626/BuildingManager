@@ -138,7 +138,7 @@ export async function deleteApartment(buildingId: string, apartmentId: string) {
     });
 
     if (!apartment) {
-        throw new AppError("Apartment not found in this building", 400);
+        throw new AppError("Apartment not found in this building", 404);
     }
 
     return prisma.apartment.delete({
