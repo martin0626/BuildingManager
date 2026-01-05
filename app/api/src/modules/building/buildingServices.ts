@@ -44,7 +44,14 @@ export async function getBuildingById(id: string) {
         },
       },
       //TODO: Add select fields as needed when including relations
-      apartments: true,
+      apartments: {
+        select: {
+          id: true,
+          number: true,
+          floor: true,
+          areaSqm: true,
+        },
+      },
       announcements: true,
       expenses: true,
       votes: true,
