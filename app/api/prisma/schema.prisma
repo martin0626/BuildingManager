@@ -23,7 +23,6 @@ model User {
   building  Building? @relation("BuildingManager")    
 
   memberships Membership[]
-  votes       VoteResponse[]
 }
 
 model Building {
@@ -51,6 +50,7 @@ model Apartment {
   createdAt  DateTime @default(now())
 
   building    Building   @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  voteResponses VoteResponse[]
   memberships Membership[]
 }
 
@@ -111,16 +111,16 @@ model VoteOption {
 
 model VoteResponse {
   id          String   @id @default(uuid())
-  userId      String
+  apartmentId String
   voteId      String
   optionId    String
   createdAt  DateTime @default(now())
 
-  user   User       @relation(fields: [userId], references: [id])
   vote   Vote       @relation(fields: [voteId], references: [id])
   option VoteOption @relation(fields: [optionId], references: [id])
+  apartment Apartment  @relation(fields: [apartmentId], references: [id])
 
-  @@unique([userId, voteId])
+  @@unique([apartmentId, voteId])
 }
 
 enum UserRole {

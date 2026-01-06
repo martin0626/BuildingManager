@@ -1,13 +1,14 @@
 import { Router } from "express";
 import { activateVoteHandler, closeVoteHandler, createVoteHandler, deleteVoteHandler, getVoteByIdHandler, getVotesHandler, updateVoteHandler } from "./voteController";
-
+import voteOptionRoutes from "../voteOptions/optionRouter";
+import voteResponseRoutes from "../voteResponse/responseRouter";
 
 const router = Router({ mergeParams: true });
 
 
 //TODO: Implement vote option and response routes
-// router.use("/:voteId/options", voteOptionRoutes);
-// router.use("/:voteId/responses", voteResponseRoutes);
+router.use("/:voteId/options", voteOptionRoutes);
+router.use("/:voteId/responses", voteResponseRoutes);
 
 router
     .post("/", createVoteHandler)
