@@ -93,7 +93,7 @@ model Vote {
   title      String
   description String
   buildingId String
-  isActive   Boolean  @default(true)
+  status      VoteStatus  @default(DRAFT)
   createdAt  DateTime @default(now())
 
   building     Building     @relation(fields: [buildingId], references: [id])
@@ -127,4 +127,11 @@ enum UserRole {
   ADMIN
   MANAGER
   RESIDENT
+}
+
+
+enum VoteStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
 }
