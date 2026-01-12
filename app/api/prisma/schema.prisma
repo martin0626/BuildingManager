@@ -19,10 +19,16 @@ model User {
   email     String   @unique
   fullName  String
   role      UserRole @default(RESIDENT)
-  createdAt DateTime @default(now())
-  building  Building? @relation("BuildingManager")    
 
+  provider   AuthProvider
+  providerId String
+
+  createdAt DateTime @default(now())
+
+  building   Building?   @relation("BuildingManager")
   memberships Membership[]
+
+  @@unique([provider, providerId])
 }
 
 model Building {
@@ -129,9 +135,12 @@ enum UserRole {
   RESIDENT
 }
 
-
 enum VoteStatus {
   DRAFT
   ACTIVE
   CLOSED
+}
+
+enum AuthProvider {
+  GOOGLE
 }
