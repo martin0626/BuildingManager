@@ -4,6 +4,9 @@ import apartmentRoutes from "../apartment/apartmentRouter";
 import announcementRoutes from "../announcement/announcementRouter";
 import voteRoutes from "../votes/voteRouters";
 import expensesRoutes from "../expense/expenseRouter";
+import { roleAuthorize } from "../../middlewares/roleAuthorize";
+import { loadBuildingContext } from "../../middlewares/loadBuildingCtx";
+import { authorizeBuilding } from "../../middlewares/authorizeBuilding";
 
 
 const router = Router();
@@ -18,9 +21,9 @@ router.use("/:buildingId/votes", voteRoutes);
 
 router
     .post("/", createBuildingHandler)
-    .get("/:id", getBuildingByIdHandler)
+    .get("/:buildingId", getBuildingByIdHandler)
     .get('/', getBuildingsHandler)
-    .patch('/:id', updateBuildingHandler)
-    .delete('/:id', deleteBuildingHandler)
+    .patch('/:buildingId', loadBuildingContext, authorizeBuilding({requireOwner: true}), updateBuildingHandler)
+    .delete('/:buildingId', loadBuildingContext, authorizeBuilding({requireOwner: true}), deleteBuildingHandler)
 
 export default router;

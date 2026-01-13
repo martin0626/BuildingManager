@@ -16,16 +16,19 @@ type  GetBuildingsQuery = {
   address?: string;
 }
 
-export async function createBuilding(data: CreateBuildingInput) {
-    return prisma.building.create({
-        data: {
-            name: data.name,
-            address: data.address,
-            city: data.city,
-            managerId: data.managerId,
-            imageUrl: data.imageUrl,
-        },
-    });
+export async function createBuilding(data: CreateBuildingInput, userId?: string) {
+
+  if(!userId) throw new Error("User ID is required to create a building");
+
+  return prisma.building.create({
+      data: {
+          name: data.name,
+          address: data.address,
+          city: data.city,
+          managerId: userId,
+          imageUrl: data.imageUrl,
+      },
+  });
 }
 
 

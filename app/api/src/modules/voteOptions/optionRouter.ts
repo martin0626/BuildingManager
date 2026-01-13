@@ -1,15 +1,16 @@
 import { Router } from "express";
 import {  createOptionHandler, createBulkOptionHandler, getOptionsHandler, updateOptionHandler, deleteOptionHandler } from "./optionsController";
+import { roleAuthorize } from "../../middlewares/roleAuthorize";
 
 
 const router = Router({ mergeParams: true });
 
 
 router
-    .post("/", createOptionHandler)
-    .post("/bulk", createBulkOptionHandler)
+    .post("/", roleAuthorize(["ADMIN", "MANAGER"]), createOptionHandler)
+    .post("/bulk", roleAuthorize(["ADMIN", "MANAGER"]), createBulkOptionHandler)
     .get('/', getOptionsHandler)
-    .patch('/:id', updateOptionHandler)
-    .delete('/:id', deleteOptionHandler)
+    .patch('/:id', roleAuthorize(["ADMIN", "MANAGER"]), updateOptionHandler)
+    .delete('/:id', roleAuthorize(["ADMIN", "MANAGER"]), deleteOptionHandler)
 
 export default router;

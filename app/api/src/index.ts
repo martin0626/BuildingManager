@@ -9,6 +9,7 @@ import "./modules/auth/googleStrategy";
 import authRoutes from "./modules/auth/authRoutes";
 import { requireAuth } from "./middlewares/requireAuth";
 
+
 dotenv.config();
 
 const app = express();

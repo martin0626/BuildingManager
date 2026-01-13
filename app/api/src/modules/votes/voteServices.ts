@@ -82,7 +82,7 @@ export async function getVoteById(buildingId: string, voteId: string) {
             select: {
             id: true,
             optionId: true,
-            userId: true,
+            apartmentId: true,
             },
         },
         },
