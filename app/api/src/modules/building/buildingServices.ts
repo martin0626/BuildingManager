@@ -20,14 +20,26 @@ export async function createBuilding(data: CreateBuildingInput, userId?: string)
 
   if(!userId) throw new Error("User ID is required to create a building");
 
-  return prisma.building.create({
+  return prisma.$transaction(async (tx) => {
+    const building = await tx.building.create({
       data: {
-          name: data.name,
-          address: data.address,
-          city: data.city,
-          managerId: userId,
-          imageUrl: data.imageUrl,
+        name: data.name,
+        address: data.address,
+        city: data.city,
+        imageUrl: data.imageUrl,
+        managerId: userId,
       },
+    });
+
+    await tx.membership.create({
+      data: {
+        userId,
+        buildingId: building.id,
+        isOwner: true,
+      },
+    });
+
+    return building;
   });
 }
 

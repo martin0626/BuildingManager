@@ -4,7 +4,8 @@ import apartmentRoutes from "../apartment/apartmentRouter";
 import announcementRoutes from "../announcement/announcementRouter";
 import voteRoutes from "../votes/voteRouters";
 import expensesRoutes from "../expense/expenseRouter";
-import { roleAuthorize } from "../../middlewares/roleAuthorize";
+import membershipRoutes from "../memberships/msRouters";
+
 import { loadBuildingContext } from "../../middlewares/loadBuildingCtx";
 import { authorizeBuilding } from "../../middlewares/authorizeBuilding";
 
@@ -16,6 +17,8 @@ router.use("/:buildingId/apartments", apartmentRoutes);
 router.use("/:buildingId/announcements", announcementRoutes);
 router.use("/:buildingId/expenses", expensesRoutes);
 router.use("/:buildingId/votes", voteRoutes);
+router.use("/:buildingId/memberships", membershipRoutes);
+
 
 
 
@@ -26,4 +29,4 @@ router
     .patch('/:buildingId', loadBuildingContext, authorizeBuilding({requireOwner: true}), updateBuildingHandler)
     .delete('/:buildingId', loadBuildingContext, authorizeBuilding({requireOwner: true}), deleteBuildingHandler)
 
-export default router;
+export default router; 

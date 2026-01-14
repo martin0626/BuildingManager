@@ -11,6 +11,9 @@ export function authorizeBuilding(options: Options = {}) {
   return (req: Request, _res: Response, next: NextFunction) => {
     const { user, building, membership } = req;
 
+    console.log(membership);
+    
+
     if (!user || !building) {
       throw new AppError("Invalid authorization context", 500);
     }

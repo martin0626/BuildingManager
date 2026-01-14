@@ -20,8 +20,8 @@ export async function loadBuildingContext(
         prisma.membership.findUnique({
             where: {
                 userId_buildingId: {
-                userId: req.user!.id,
-                buildingId,
+                    userId: req.user!.id,
+                    buildingId,
                 },
             },
         }),

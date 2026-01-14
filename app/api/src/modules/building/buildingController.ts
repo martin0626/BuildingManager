@@ -8,7 +8,6 @@ export const createBuildingHandler = catchAsync(async (req, res) => {
     const userId = req.user?.id;
     const buildingData = req.body;
     const result = await createBuilding(buildingData, userId);
-
     res.status(201).json({ message: "Building created successfully", data: result });
 });
 
@@ -16,7 +15,6 @@ export const createBuildingHandler = catchAsync(async (req, res) => {
 
 export const getBuildingsHandler = catchAsync(async (req, res) => {
     const buildings = await getAllBuildings(req.query);
-    console.log(req.user);
     res.status(200).json({ data: buildings });
 });
 
