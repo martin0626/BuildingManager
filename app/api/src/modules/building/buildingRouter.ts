@@ -29,4 +29,4 @@ router
     .patch('/:buildingId', loadBuildingContext, authorizeBuilding({requireOwner: true}), updateBuildingHandler)
     .delete('/:buildingId', loadBuildingContext, authorizeBuilding({requireOwner: true}), deleteBuildingHandler)
 
-export default router; 
+export default router;

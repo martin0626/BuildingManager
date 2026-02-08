@@ -15,7 +15,7 @@ export async function loadBuildingContext(
 
     const [building, membership] = await Promise.all([
         prisma.building.findUnique({
-        where: { id: buildingId },
+            where: { id: buildingId },
         }),
         prisma.membership.findUnique({
             where: {
